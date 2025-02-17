@@ -1,0 +1,9 @@
+replicaCount: 2
+image:
+  repository: apache/apisix
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 80

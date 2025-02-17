@@ -1,0 +1,5 @@
+replicaCount: 1
+image:
+  repository: kedacore/keda
+  tag: latest
+  pullPolicy: IfNotPresent

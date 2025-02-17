@@ -1,0 +1,5 @@
+replicaCount: 1
+image:
+  repository: openpolicyagent/opa
+  tag: latest
+  pullPolicy: IfNotPresent

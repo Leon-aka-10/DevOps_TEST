@@ -1,0 +1,5 @@
+apiVersion: v2
+name: apisix
+description: Helm chart for Apache APISIX
+version: 0.1.0
+appVersion: "3.0"

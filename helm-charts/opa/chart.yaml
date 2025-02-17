@@ -1,0 +1,5 @@
+apiVersion: v2
+name: opa
+description: Helm chart for Open Policy Agent
+version: 0.1.0
+appVersion: "0.33.1"

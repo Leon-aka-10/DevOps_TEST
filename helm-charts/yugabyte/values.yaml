@@ -1,0 +1,9 @@
+replicaCount: 3
+image:
+  repository: yugabytedb/yugabyte
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 5433

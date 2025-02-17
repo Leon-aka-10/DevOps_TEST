@@ -1,0 +1,27 @@
+name: Deploy to AKS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Configure Azure CLI & kubectl
+        run: |
+          az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+          az aks get-credentials --resource-group MyResourceGroup --name MyAKSCluster
+
+      - name: Deploy Microservices with Helm
+        run: |
+          cd helm-charts/microservices/
+          helm upgrade --install user-service user-service/
+          helm upgrade --install order-service order-service/
+
+      - name: Verify Deployment
+        run: kubectl get pods -A
