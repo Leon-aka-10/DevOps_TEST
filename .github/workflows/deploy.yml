@@ -31,16 +31,17 @@ jobs:
 
       - name: Build & Push Docker Image
         run: |
-          sudo chown -R $USER:$USER ~/DevOps_TEST/  # Change ownership
-          sudo chmod -R u+w ~/DevOps_TEST/         # Grant write permissions
+          sudo chown -R $USER:$USER $HOME/DevOps_TEST
+          sudo chmod -R u+w $HOME/DevOps_TEST
 
-          cd ~/DevOps_TEST/services/microservice1
+          cd $HOME/DevOps_TEST/services/microservice1
           docker build -t chrisjrleon10/my-microservice:latest .
           docker push chrisjrleon10/my-microservice:latest
 
-          cd ~/DevOps_TEST/services/microservice2
+          cd $HOME/DevOps_TEST/services/microservice2
           docker build -t chrisjrleon10/my-microservice:latest .
           docker push chrisjrleon10/my-microservice:latest
+
 
 
       - name: Deploy terrafrom scripts
