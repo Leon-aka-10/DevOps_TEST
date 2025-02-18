@@ -14,11 +14,7 @@ jobs:
         uses: actions/checkout@v3
 
     
-      - name: Configure kubectl
-        run: |
-          sudo az login --identity --allow-no-subscriptions
-          sudo az login --tenant 5fe78ac1-1afe-4009-aa04-a71efb4a5042
-          sudo az aks get-credentials --resource-group myResourceGroup --name myAKSCluster --overwrite-existing
+      - name: Deploy to Server
         
         
       - name: Login to DockerHub
