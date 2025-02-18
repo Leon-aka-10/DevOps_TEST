@@ -31,9 +31,9 @@ jobs:
 
       - name: Build & Push Docker Image
         run: |
-          sudo chown -R $USER:$USER /home/azureuser/DevOps_TEST/  # Change ownership
-          sudo chmod -R u+w /home/azureuser/DevOps_TEST/         # Grant write permissions
-          
+          sudo chown -R $USER:$USER ~/DevOps_TEST/  # Change ownership
+          sudo chmod -R u+w ~/DevOps_TEST/         # Grant write permissions
+
           cd ~/DevOps_TEST/services/microservice1
           docker build -t chrisjrleon10/my-microservice:latest .
           docker push chrisjrleon10/my-microservice:latest
