@@ -31,12 +31,9 @@ jobs:
 
       - name: Build & Push Docker Image
         run: |
-          sudo chown -R $USER:$USER /home/azureuser/DevOps_TEST/.git  # Change ownership
-          sudo chmod -R u+w /home/azureuser/DevOps_TEST/.git         # Grant write permissions
-          cd ~/DevOps_TEST
-          sudo git fetch --all
-          sudo git reset --hard origin/main  # Use sudo to override permission issues
-          sudo git pull origin main
+          sudo chown -R $USER:$USER /home/azureuser/DevOps_TEST/  # Change ownership
+          sudo chmod -R u+w /home/azureuser/DevOps_TEST/         # Grant write permissions
+          
           cd ~/DevOps_TEST/services/microservice1
           docker build -t chrisjrleon10/my-microservice:latest .
           docker push chrisjrleon10/my-microservice:latest
