@@ -21,6 +21,13 @@ jobs:
           username: azureuser
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
+          script: |
+            sudo chown -R $USER:$USER /home/azureuser/DevOps_TEST/.git  # Change ownership
+            sudo chmod -R u+w /home/azureuser/DevOps_TEST/.git         # Grant write permissions
+            cd ~/DevOps_TEST
+            sudo git fetch --all
+            sudo git reset --hard origin/main  # Use sudo to override permission issues
+            sudo git pull origin main
         
         
       - name: Login to DockerHub
