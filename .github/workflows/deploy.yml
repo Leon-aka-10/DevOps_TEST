@@ -43,7 +43,7 @@ jobs:
           terraform --version
           az login --tenant 5fe78ac1-1afe-4009-aa04-a71efb4a5042
           terraform init
-          terraform apply -var="resource_group_name=myResourceGroup" -var="cluster_name=myAKSCluster"
+          terraform apply -var="resource_group_name=myResourceGroup" -var="cluster_name=myAKSCluster" -auto-approve
 
       - name: Deploy infra with Helm
         run: |
