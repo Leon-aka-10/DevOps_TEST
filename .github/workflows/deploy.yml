@@ -49,14 +49,6 @@ jobs:
           terraform plan
           terraform apply -auto-approve
 
-          dependsOn: Deploy
-            condition: failed()  # Run only if the previous job fails
-            steps:
-              - script: |
-                  echo "Deployment failed. Destroying resources."
-                  terraform destroy -auto-approve
-                  displayName: 'Terraform Destroy'
-
       - name: Deploy infra with Helm
         run: |
           cd infrastruture/helm-charts/
