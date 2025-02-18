@@ -41,6 +41,7 @@ jobs:
           unzip terraform.zip
           sudo mv terraform /usr/local/bin/
           terraform --version
+          az login --tenant 5fe78ac1-1afe-4009-aa04-a71efb4a5042
           terraform init
           terraform apply -var="resource_group_name=myResourceGroup" -var="cluster_name=myAKSCluster"
 
