@@ -31,6 +31,11 @@ jobs:
 
       - name: Build & Push Docker Image
         run: |
+          cd ~/DevOps_TEST/services/microservice1
+          docker build -t chrisjrleon10/my-microservice:latest .
+          docker push chrisjrleon10/my-microservice:latest
+
+          cd ~/DevOps_TEST/services/microservice2
           docker build -t chrisjrleon10/my-microservice:latest .
           docker push chrisjrleon10/my-microservice:latest
 
