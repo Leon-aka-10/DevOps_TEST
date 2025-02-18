@@ -52,12 +52,12 @@ jobs:
       - name: Deploy infra with Helm
         run: |
           cd infrastruture/helm-charts/
-          helm install apisix apisix/
-          helm install yugabyte yugabyte/
-          helm install kafka kafka/
-          helm install dapr dapr/
-          helm install opa opa/
-          helm install keda keda/
+          helm install apisix ./apisix/
+          helm install yugabyte ./yugabyte/
+          helm install kafka ./kafka/
+          helm install dapr ./dapr/
+          helm install opa ./opa/
+          helm install keda ./keda/
 
       - name: Deploy Microservices with Helm
         run: |
