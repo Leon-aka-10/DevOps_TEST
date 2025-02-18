@@ -13,7 +13,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-    
       - name: Login to Server
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -21,7 +20,6 @@ jobs:
           username: azureuser
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
-        
         
       - name: Login to DockerHub
         uses: docker/login-action@v2
@@ -31,25 +29,15 @@ jobs:
 
       - name: Build & Push Docker Image
         run: |
-          sudo chown -R $USER:$USER $HOME/DevOps_TEST
-          sudo chmod -R u+w $HOME/DevOps_TEST
-
-          cd $HOME/DevOps_TEST/services/microservice1
+          
           docker build -t chrisjrleon10/my-microservice:latest .
           docker push chrisjrleon10/my-microservice:latest
-
-          cd $HOME/DevOps_TEST/services/microservice2
-          docker build -t chrisjrleon10/my-microservice:latest .
-          docker push chrisjrleon10/my-microservice:latest
-
-
 
       - name: Deploy terrafrom scripts
         run: |
           cd infrastruture/terraform/
           terraform init
           terraform apply -var="resource_group_name=myResourceGroup" -var="cluster_name=myAKSCluster"
-
 
       - name: Deploy infra with Helm
         run: |
@@ -60,7 +48,6 @@ jobs:
           helm install dapr dapr/
           helm install opa opa/
           helm install keda keda/
-
 
       - name: Deploy Microservices with Helm
         run: |
