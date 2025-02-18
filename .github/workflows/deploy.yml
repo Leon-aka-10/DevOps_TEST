@@ -36,6 +36,11 @@ jobs:
       - name: Deploy terrafrom scripts
         run: |
           cd infrastruture/terraform/
+          sudo apt update && sudo apt install -y wget unzip
+          wget -O terraform.zip https://releases.hashicorp.com/terraform/1.7.2/terraform_1.7.2_linux_amd64.zip
+          unzip terraform.zip
+          sudo mv terraform /usr/local/bin/
+          terraform --version
           terraform init
           terraform apply -var="resource_group_name=myResourceGroup" -var="cluster_name=myAKSCluster"
 
