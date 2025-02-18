@@ -6,9 +6,10 @@ on:
       - main
 
 jobs:
+  
   deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -43,9 +44,16 @@ jobs:
           terraform --version
           az login --tenant 5fe78ac1-1afe-4009-aa04-a71efb4a5042
           terraform init
-          terraform import azurerm_resource_group.aks /subscriptions/61c877df-9dd0-41e9-95e1-db9b008c5f72/resourceGroups/myResourceGroup
           terraform plan
           terraform apply -var="resource_group_name=myResourceGroup" -var="cluster_name=myAKSCluster" -auto-approve
+
+          dependsOn: Deploy
+            condition: failed()  # Run only if the previous job fails
+            steps:
+              - script: |
+                  echo "Deployment failed. Destroying resources."
+                  terraform destroy -auto-approve
+                  displayName: 'Terraform Destroy'
 
       - name: Deploy infra with Helm
         run: |
@@ -74,3 +82,5 @@ jobs:
         run: |
           kubectl get pods --all-namespaces
           kubectl get pods -n my-namespace
+
+            
