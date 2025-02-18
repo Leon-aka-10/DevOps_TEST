@@ -44,7 +44,6 @@ jobs:
           terraform --version
           az login --tenant 5fe78ac1-1afe-4009-aa04-a71efb4a5042
           terraform init
-          terraform state rm azurerm_kubernetes_cluster.aks
           terraform import azurerm_resource_group.aks /subscriptions/61c877df-9dd0-41e9-95e1-db9b008c5f72/resourceGroups/myResourceGroup
           terraform state list
           terraform plan
