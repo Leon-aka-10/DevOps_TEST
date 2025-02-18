@@ -17,5 +17,5 @@ variable "cluster_name" {
 variable "node_count" {
   description = "Number of AKS worker nodes"
   type        = number
-  default     = 3
+  default     = 1
 }
