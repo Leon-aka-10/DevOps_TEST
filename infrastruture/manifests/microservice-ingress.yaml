@@ -1,0 +1,16 @@
+apiVersion: apisix.apache.org/v2beta3
+kind: ApisixRoute
+metadata:
+  name: my-microservice-route
+  namespace: my-namespace
+spec:
+  http:
+    - name: my-microservice-rule
+      match:
+        hosts:
+          - my-app.example.com
+        paths:
+          - /api/v1/my-microservice/*
+      backends:
+        - serviceName: my-microservice
+          servicePort: 80

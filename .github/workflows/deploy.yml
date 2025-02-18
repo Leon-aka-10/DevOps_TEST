@@ -1,4 +1,4 @@
-name: Deploy to AKS
+name: Deploy Microservice to AKS
 
 on:
   push:
@@ -8,20 +8,62 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Configure Azure CLI & kubectl
+    
+      - name: Configure kubectl
         run: |
-          az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
-          az aks get-credentials --resource-group MyResourceGroup --name MyAKSCluster
+          az login --identity
+          az aks get-credentials --resource-group myResourceGroup --name myAKSCluster --overwrite-existing
+        
+        
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build & Push Docker Image
+        run: |
+          docker build -t chrisjrleon10/my-microservice:latest .
+          docker push chrisjrleon10/my-microservice:latest
+
+
+      - name: Deploy terrafrom scripts
+        run: |
+          cd infrastruture/terraform/
+          terraform init
+          terraform apply -var="resource_group_name=myResourceGroup" -var="cluster_name=myAKSCluster"
+
+
+      - name: Deploy infra with Helm
+        run: |
+          cd infrastruture/helm-charts/
+          helm install apisix apisix/
+          helm install yugabyte yugabyte/
+          helm install kafka kafka/
+          helm install dapr dapr/
+          helm install opa opa/
+          helm install keda keda/
+
 
       - name: Deploy Microservices with Helm
         run: |
-          cd helm-charts/microservices/
-          helm upgrade --install user-service user-service/
-          helm upgrade --install order-service order-service/
+          cd services/
+          helm upgrade --install user-service microservice1/
+          helm upgrade --install order-service microservice2/
+
+      - name: Deploy to AKS
+        run: |
+          cd infrastruture/helm-charts
+          kubectl apply -f manifests/microservice-deployment.yaml
+          kubectl apply -f manifests/microservice-service.yaml
+          kubectl apply -f manifests/microservice-ingress.yaml
 
       - name: Verify Deployment
-        run: kubectl get pods -A
+        run: |
+          kubectl get pods --all-namespaces
+          kubectl get pods -n my-namespace
